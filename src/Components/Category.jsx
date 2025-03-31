@@ -1,15 +1,33 @@
 import Image from "next/image";
+import Link from "next/link";
 const categories = [
     { name: "Iphone", src: "/assets/images/iphone.png" },
     { name: "Mini Speakers", src: "/assets/images/mini speakers.png" },
     { name: "Ipad mini Pro", src: "/assets/images/Ipad.png" },
-    { name: "Apple Mackbook ", src: "/assets/images/Laptop (1).png" },
+    { name: "Apple Mackbook ", src: "/assets/images/Laptop1.png" },
     { name: "Laptop", src: "/assets/images/mackbook.png" },
     { name: "Accessories", src: "/assets/images/AirPods.png" },
   ];
- 
 
-const Category = () => {
+  
+
+
+  const getProducts = async () => {
+    try {
+        const res = await fetch('https://dummyjson.com/products', {
+            method: "GET"
+        });
+       
+        return res.json();
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+const Category = async () => {
+  const products_list  = await getProducts()
+  console.log(products_list);
+  
   return (
     <div className="container mx-auto w-[90%] md:w-[85%] py-10">
     <h3 className="text-2xl font-semibold  mb-6">Trending Categories</h3>
@@ -117,27 +135,23 @@ const Category = () => {
    </div>
  
    {/* Mahsulotlar grid */}
-   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-9">
-     {[
-       { img: "/assets/images/charger.png", title: "Drou safe charger", price: "$34.00", oldPrice: "$52.00" },
-       { img: "/assets/images/Small iphone.png", title: "Latest Smart Watch", price: "$90.00", oldPrice: "$100.00" },
-       { img: "/assets/images/Laptop1.png", title: "Apple Macbook Air M3", price: "$1099.00", oldPrice: "$1199.00" },
-       { img: "/assets/images/Latest watch.png", title: "Homepod mini", price: "$54.00", oldPrice: "$68.00" },
-       { img: "/assets/images/charger1.png", title: "Home Entertainment", price: "$94.00", oldPrice: "$113.00" },
-       { img: "/assets/images/Ipad.png", title: "Home Entertainment", price: "$94.00", oldPrice: "$113.00" },
-       { img: "/assets/images/speakers2.png", title: "Home Entertainment", price: "$94.00", oldPrice: "$113.00" },
-       { img: "/assets/images/mini speakers.png", title: "Home Entertainment", price: "$94.00", oldPrice: "$113.00" },
-     ].map((item, index) => (
-       <div key={index} className="bg-white rounded-lg p-4 shadow-md text-center">
-         <Image src={item.img} alt={item.title} width={200} height={150} className="object-contain mx-auto" />
-         <p className="mt-4 text-gray-500">{item.title}</p>
-         <div className="flex justify-center gap-2 mt-4">
-           <p className="text-[#FF5B00] font-bold">{item.price}</p>
-           <p className="text-gray-400 line-through">{item.oldPrice}</p>
-         </div>
-       </div>
-     ))}
-   </div>
+   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-9 px-">
+    {
+    products_list.products.map((item) => {
+      return (
+        <div key={item?.id} className="bg-white p-4 rounded-lg shadow-md hover:scale-105 transition-transform">
+        <Link href={`/${item.id}`}>
+
+            <Image src={item?.thumbnail} alt="foto" width={240} height={240} className="rounded-lg"/>
+            <p className="text-lg text-center text-gray-500  mt-4">{item?.title}</p>
+            <p className="text-gray-600  mt-4 font-medium">Narxi: <span className="text-[#FF5B00] font-bold">${item?.price}</span></p>
+          </Link>
+        </div>
+      )
+    })
+    }
+</div>
+
  </div>
 
 <div className="py-9 px-4">

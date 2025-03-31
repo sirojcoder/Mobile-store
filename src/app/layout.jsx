@@ -1,16 +1,16 @@
-
 import "./globals.css";
-import Navbar from '@/Components/Navbar'
-import Footer from '@/Components/Footer'
-import Header from '@/Components/Header'
-import Category from '@/Components/Category'
-export default function RootLayout({ }) {
+import Navbar from '@/Components/Navbar';
+import Footer from '@/Components/Footer';
+export const metadata = {
+  title: 'Mobile store',
+ }
+export default function RootLayout({ children }) {
+  
   return (
     <html lang="uz">
       <body>
         <Navbar />
-        <Header />
-        <Category />
+        {children}
         <Footer />
       </body>
     </html>

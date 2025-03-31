@@ -1,12 +1,12 @@
-import Image from "next/image";
+// app/page.jsx
+import Header from '@/Components/Header';
+import Category from '@/Components/Category';
 
-export default function Home() {
+export default function HomePage() {
   return (
-    
-  <div>
-   
-   
-  </div>
-  
+    <>
+      <Header />
+      <Category />
+    </>
   );
 }
